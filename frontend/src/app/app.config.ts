@@ -4,6 +4,6 @@ import {jwtInterceptor} from './interceptors/jwt.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideHttpClient(withInterceptors([jwtInterceptor])) // Use new Angular way
+    provideHttpClient(withInterceptors([jwtInterceptor]))
   ]
 };

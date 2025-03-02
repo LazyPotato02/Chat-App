@@ -31,7 +31,6 @@ export class AuthService {
       tap(response => {
         this.saveTokens(response.access, this.getRefreshToken()!);
       }),
-      // Extract only the `access` token to match Observable<string>
       switchMap(response => {
         return of(response.access);
       })
