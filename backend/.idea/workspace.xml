@@ -5,21 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="93f93384-df5d-4a27-acb8-dd61eba8d69e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/asgi.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/asgi.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chat/consumers.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/chat/routing.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/debug.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/user/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/user/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/app.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/app.config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/auth/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/auth/auth.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,7 +95,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1740951834836</updated>
-      <workItem from="1740951835822" duration="1061000" />
+      <workItem from="1740951835822" duration="3180000" />
     </task>
     <servers />
   </component>
