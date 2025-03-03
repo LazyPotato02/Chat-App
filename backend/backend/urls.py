@@ -10,4 +10,5 @@ urlpatterns = [
 
     path('user/', include('user.urls')),
     path("chat/", include('chat.urls')),
+    path("friend/", include('friend.urls')),
 ]

@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'corsheaders',
     "chat",
     "user",
+    'friend',
 ]
 
 MIDDLEWARE = [
