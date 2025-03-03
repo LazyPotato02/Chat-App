@@ -61,9 +61,16 @@ def leave_chat_room(request):
     except ChatRoom.DoesNotExist:
         return Response({"error": "Chat room not found"}, status=status.HTTP_404_NOT_FOUND)
 
-    # Check if the user is a member of the room
+    # Check if the user is in the room
     if request.user in room.members.all():
         room.members.remove(request.user)
+
+        # 🚨 If no members left, delete the room
+        if room.members.count() == 0:
+            room.delete()
+            return Response({"message": f"Chat room '{room.name}' has been deleted as it is now empty."},
+                            status=status.HTTP_200_OK)
+
         return Response({"message": f"You have left the chat room: {room.name}"}, status=status.HTTP_200_OK)
-    else:
-        return Response({"error": "You are not a member of this chat room"}, status=status.HTTP_400_BAD_REQUEST)
+
+    return Response({"error": "You are not a member of this chat room"}, status=status.HTTP_400_BAD_REQUEST)
