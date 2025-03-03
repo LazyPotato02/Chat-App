@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 
 class ChatRoom(models.Model):
     name = models.CharField(max_length=255, unique=True)
+    members = models.ManyToManyField(User, related_name="chat_rooms", blank=True)  # Track room members
 
     def __str__(self):
         return self.name

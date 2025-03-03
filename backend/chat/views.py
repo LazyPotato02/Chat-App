@@ -10,7 +10,7 @@ from .serializers import MessageSerializer
 def send_message(request):
     data = request.data
 
-    # If `room_id` exists, get the room
+    # Find or create the room
     room = None
     if 'room_id' in data:
         try:
@@ -19,10 +19,12 @@ def send_message(request):
             return Response({"error": "Chat room not found"}, status=status.HTTP_404_NOT_FOUND)
     elif 'room_name' in data:
         room, _ = ChatRoom.objects.get_or_create(name=data['room_name'])
-    else:
-        return Response({"error": "room_id or room_name is required"}, status=status.HTTP_400_BAD_REQUEST)
 
-    # Create the message
+    # Add user to room if not already a member
+    if request.user not in room.members.all():
+        room.members.add(request.user)
+
+    # Create and save the message
     message = Message.objects.create(
         room=room,
         user=request.user,
@@ -37,3 +39,31 @@ def send_message(request):
 def get_messages(request):
     messages = Message.objects.all().order_by('-timestamp')[:50]  # Last 50 messages
     return Response(MessageSerializer(messages, many=True).data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def list_user_chat_rooms(request):
+    user_rooms = request.user.chat_rooms.all()
+    return Response([{"id": room.id, "name": room.name} for room in user_rooms])
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def leave_chat_room(request):
+    data = request.data
+
+    # Check if room_id is provided
+    if 'room_id' not in data:
+        return Response({"error": "room_id is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        room = ChatRoom.objects.get(id=data['room_id'])
+    except ChatRoom.DoesNotExist:
+        return Response({"error": "Chat room not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    # Check if the user is a member of the room
+    if request.user in room.members.all():
+        room.members.remove(request.user)
+        return Response({"message": f"You have left the chat room: {room.name}"}, status=status.HTTP_200_OK)
+    else:
+        return Response({"error": "You are not a member of this chat room"}, status=status.HTTP_400_BAD_REQUEST)

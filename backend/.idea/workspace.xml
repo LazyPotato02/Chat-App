@@ -5,10 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="93f93384-df5d-4a27-acb8-dd61eba8d69e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/b15012cb-03fe-4d1f-afc9-605b722c6967.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/b15012cb-03fe-4d1f-afc9-605b722c6967.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chat/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/chat/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chat/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/chat/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chat/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/chat/views.py" afterDir="false" />
     </list>
@@ -101,7 +99,7 @@
       <option name="presentableId" value="Default" />
       <updated>1740951834836</updated>
       <workItem from="1740951835822" duration="3180000" />
-      <workItem from="1741000606724" duration="1472000" />
+      <workItem from="1741000606724" duration="2006000" />
     </task>
     <servers />
   </component>
