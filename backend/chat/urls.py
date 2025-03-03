@@ -1,7 +1,7 @@
 from django.urls import path
-from .views import save_message, get_messages
+from .views import send_message, get_messages
 
 urlpatterns = [
-    path("api/save_message/", save_message),
-    path("api/get_messages/<str:room_name>/", get_messages),
+    path('send', send_message, name='send_message'),
+    path('messages', get_messages, name='get_messages'),
 ]
