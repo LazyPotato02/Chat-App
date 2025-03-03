@@ -1,41 +1,44 @@
-const express = require("express");
+const WebSocket = require("ws");
 const http = require("http");
-const { Server } = require("socket.io");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
-const app = express();
-const server = http.createServer(app);
-const io = new Server(server, {
-    cors: {
-        origin: "*",
-        methods: ["GET", "POST"]
-    },
-    transports: ["websocket", "polling"]
-
-});
+const server = http.createServer();
+const wss = new WebSocket.Server({ server });
 
 console.log("🚀 WebSocket Server is starting...");
 
-io.on("connection", (socket) => {
-    console.log(`✅ WebSocket connected: ${socket.id}`);
+wss.on("connection", (ws, req) => {
+    // Extract token from query parameters
+    const url = new URL(req.url, `http://${req.headers.host}`);
+    const token = url.searchParams.get("token");
 
-    socket.on("joinRoom", (room) => {
-        socket.join(room);
-        console.log(`👥 User joined room: ${room}`);
-    });
+    console.log(`🔍 Received WebSocket connection attempt. Token: ${token ? "Present" : "None"}`);
 
-    socket.on("sendMessage", ({ room, username, message }) => {
-        console.log(`📩 Message from ${username}: ${message} (Room: ${room})`);
-        io.to(room).emit("receiveMessage", { username, message });
-    });
+    if (!token) {
+        console.log("❌ WebSocket rejected: No token provided");
+        ws.close(4001, "Authentication error: No token");
+        return;
+    }
 
-    socket.on("disconnect", () => {
-        console.log("🔴 WebSocket disconnected");
-    });
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        ws.userId = decoded.user_id;
+        console.log(`✅ WebSocket authenticated: User ${ws.userId}`);
 
-    socket.on("error", (err) => {
-        console.error("❌ WebSocket error:", err.message);
-    });
+        ws.on("message", (message) => {
+            console.log(`📩 Message received: ${message}`);
+        });
+
+        ws.on("close", (code, reason) => {
+            console.log(`🔴 WebSocket disconnected. Code: ${code}, Reason: ${reason}`);
+        });
+
+    } catch (err) {
+        console.log("❌ JWT Authentication failed:", err.message);
+        ws.close(4002, "Authentication error: Invalid token");
+    }
 });
 
-// 🔹 Listen on 0.0.0.0 instead of 127.0.0.1 to accept external connections
-server.listen(8001, "0.0.0.0", () => console.log("🚀 WebSocket Server running on port 8001"));
+// Start WebSocket server
+server.listen(8001, "0.0.0.0", () => console.log(`🚀 WebSocket Server running on port 8001`));

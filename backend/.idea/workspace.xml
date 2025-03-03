@@ -5,11 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="93f93384-df5d-4a27-acb8-dd61eba8d69e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/b15012cb-03fe-4d1f-afc9-605b722c6967.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/b15012cb-03fe-4d1f-afc9-605b722c6967.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/b15012cb-03fe-4d1f-afc9-605b722c6967/storage_v2/_src_/database/chat_app.utCxVQ/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/b15012cb-03fe-4d1f-afc9-605b722c6967/storage_v2/_src_/database/chat_app.utCxVQ/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../websocker-server/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../websocker-server/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../websocker-server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../websocker-server/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../websocker-server/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/../websocker-server/server.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,7 +100,7 @@
       <updated>1740951834836</updated>
       <workItem from="1740951835822" duration="3180000" />
       <workItem from="1741000606724" duration="3411000" />
-      <workItem from="1741005594350" duration="1203000" />
+      <workItem from="1741005594350" duration="4910000" />
     </task>
     <servers />
   </component>
