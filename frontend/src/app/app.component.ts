@@ -1,13 +1,27 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import {FriendsListComponent} from './components/friends-list/friends-list.component';
+import { AuthService } from './auth/auth.service';
+import {Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
+import {NgIf} from '@angular/common';
 
 @Component({
-  selector: 'app-root',
-    imports: [FriendsListComponent],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    imports: [
+        RouterLinkActive,
+        RouterLink,
+        NgIf,
+        RouterOutlet
+    ],
+    styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'frontend';
+    constructor(private authService: AuthService, private router: Router) {}
+
+    isAuthenticated(): boolean {
+        return this.authService.isAuthenticated();
+    }
+
+    logout(): void {
+        this.authService.logout();
+    }
 }

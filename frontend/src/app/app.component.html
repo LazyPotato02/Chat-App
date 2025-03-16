@@ -1,1 +1,10 @@
-<app-friends-list></app-friends-list>
+<nav>
+    <a routerLink="/login" routerLinkActive="active">Login</a> |
+    <a routerLink="/register" routerLinkActive="active">Register</a> |
+    <a routerLink="/friends" routerLinkActive="active" *ngIf="isAuthenticated()">Friends</a> |
+    <a (click)="logout()" *ngIf="isAuthenticated()">Logout</a>
+</nav>
+
+<hr>
+
+<router-outlet></router-outlet>

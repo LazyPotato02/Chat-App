@@ -1,0 +1,15 @@
+<h2>Register</h2>
+<form (submit)="register()">
+    <label>Username:</label>
+    <input type="text" [(ngModel)]="username" required />
+
+    <label>Password:</label>
+    <input type="password" [(ngModel)]="password" required />
+
+    <button type="submit">Register</button>
+
+    <p *ngIf="message" style="color: green">{{ message }}</p>
+    <p *ngIf="errorMessage" style="color: red">{{ errorMessage }}</p>
+
+    <p>Already have an account? <a routerLink="/login">Login</a></p>
+</form>

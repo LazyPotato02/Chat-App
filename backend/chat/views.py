@@ -85,7 +85,6 @@ def leave_chat_room(request):
 @permission_classes([IsAuthenticated])
 def store_message(request):
     try:
-        print("🔍 Request Body:", request.body)  # ✅ Debugging
 
         data = json.loads(request.body)
 

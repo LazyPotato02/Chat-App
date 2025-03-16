@@ -1,6 +1,6 @@
-import {inject, Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable, tap, throwError, BehaviorSubject, switchMap, filter, take, catchError, of} from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, tap, throwError, BehaviorSubject, switchMap, filter, take, catchError, of } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -10,6 +10,10 @@ export class AuthService {
     private apiUrl = 'http://127.0.0.1:8000/api';
     private isRefreshing = false;
     private refreshTokenSubject = new BehaviorSubject<string | null>(null);
+
+    isAuthenticated(): boolean {
+        return !!this.getAccessToken();
+    }
 
     getAccessToken(): string | null {
         return localStorage.getItem('access_token');
@@ -24,6 +28,17 @@ export class AuthService {
         localStorage.setItem('refresh_token', refresh);
     }
 
+    getUserProfile(): Observable<{ id: number; username: string }> {
+        return this.http.get<{ id: number; username: string }>(`${this.apiUrl}/user/profile/`);
+    }
+
+    login(username: string, password: string): Observable<{ access: string; refresh: string }> {
+        return this.http.post<{ access: string; refresh: string }>(`${this.apiUrl}/token/`, { username, password }).pipe(
+            tap(tokens => {
+                this.saveTokens(tokens.access, tokens.refresh);
+            })
+        );
+    }
     refreshToken(): Observable<string> {
         return this.http.post<{ access: string }>(`${this.apiUrl}/token/refresh/`, {
             refresh: this.getRefreshToken()
@@ -37,7 +52,6 @@ export class AuthService {
         );
     }
 
-
     handle401Error(req: any, next: any): Observable<any> {
         if (!this.isRefreshing) {
             this.isRefreshing = true;
@@ -47,7 +61,7 @@ export class AuthService {
                 switchMap((newToken) => {
                     this.isRefreshing = false;
                     this.refreshTokenSubject.next(newToken);
-                    return next(req.clone({setHeaders: {Authorization: `Bearer ${newToken}`}}));
+                    return next(req.clone({ setHeaders: { Authorization: `Bearer ${newToken}` } }));
                 }),
                 catchError((err) => {
                     this.isRefreshing = false;
@@ -59,11 +73,17 @@ export class AuthService {
             return this.refreshTokenSubject.pipe(
                 filter(token => token !== null),
                 take(1),
-                switchMap((token) => next(req.clone({setHeaders: {Authorization: `Bearer ${token!}`}})))
+                switchMap((token) => next(req.clone({ setHeaders: { Authorization: `Bearer ${token!}` } })))
             );
         }
     }
 
+    register(username: string, password: string): Observable<{ message: string }> {
+        return this.http.post<{ message: string }>(`${this.apiUrl}/user/register/`, {
+            username,
+            password
+        });
+    }
     logout(): void {
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
