@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -67,21 +68,27 @@ def respond_to_friend_request(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def list_friends(request):
+
+    print(f"📢 Checking friends for user: {request.user.username} (ID: {request.user.id})")  # Debugging log
+
     friends = FriendRequest.objects.filter(
-        (models.Q(sender=request.user) | models.Q(receiver=request.user)),
+        (Q(sender=request.user) | Q(receiver=request.user)),
         status="accepted"
     )
 
-    friend_list = [
-        {
-            "id": friend.sender.id if friend.receiver == request.user else friend.receiver.id,
-            "username": friend.sender.username if friend.receiver == request.user else friend.receiver.username
-        }
-        for friend in friends
-    ]
+    print(f"📢 Found {friends.count()} friends")  # Debugging log
+
+    friend_list = []
+    for friend in friends:
+        if friend.sender == request.user:
+            friend_data = {"id": friend.receiver.id, "username": friend.receiver.username}
+        else:
+            friend_data = {"id": friend.sender.id, "username": friend.sender.username}
+
+        print(f"👤 Friend found: {friend_data}")  # Debugging log
+        friend_list.append(friend_data)
 
     return Response(friend_list)
-
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])

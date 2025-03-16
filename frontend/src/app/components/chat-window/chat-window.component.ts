@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FriendService } from '../../services/friend.service';
-import {FormsModule} from '@angular/forms';
+import { ChatService } from '../../services/chat.service';
+import { WebSocketService } from '../../services/websocket.service';
+import { AuthService } from '../../auth/auth.service';
 import {NgForOf} from '@angular/common';
-import {ChatService} from '../../services/chat.service';
+import {FormsModule} from '@angular/forms';
 
 @Component({
     selector: 'app-chat-window',
     templateUrl: './chat-window.component.html',
     imports: [
-        FormsModule,
-        NgForOf
+        NgForOf,
+        FormsModule
     ],
     styleUrls: ['./chat-window.component.css']
 })
@@ -19,32 +20,50 @@ export class ChatWindowComponent implements OnInit {
     messages: { sender: string; content: string; timestamp: string }[] = [];
     newMessage: string = '';
 
-    constructor(private chatService: ChatService, private route: ActivatedRoute) {}
+    constructor(
+        private route: ActivatedRoute,
+        private chatService: ChatService,
+        private wsService: WebSocketService,
+        private authService: AuthService
+    ) {}
 
     ngOnInit(): void {
         this.roomId = Number(this.route.snapshot.paramMap.get('roomId'));
 
+        // 🔹 Fetch previous messages when opening the chat
         this.chatService.getMessages(this.roomId).subscribe({
-            next: (msgs) => {
-                this.messages = msgs.map(msg => ({
-                    sender: msg.sender,
-                    content: msg.content,
-                    timestamp: msg.timestamp
-                }));
-            },
+            next: (data) => this.messages = data,
             error: (err) => console.error("Error fetching messages:", err)
         });
+
+        // 🔹 Connect to WebSocket
+        const token = this.authService.getAccessToken();
+        if (token) {
+            this.wsService.connect(token);
+
+            this.wsService.onMessage((data) => {
+                if (data.type === "receiveMessage") {
+                    this.messages.push({
+                        sender: `User ${data.userId}`,
+                        content: data.message,
+                        timestamp: new Date().toISOString()
+                    });
+                }
+            });
+
+            this.wsService.sendMessage({ type: "joinRoom", room_id: this.roomId });
+        }
     }
 
     sendMessage(): void {
         if (this.newMessage.trim()) {
-            this.chatService.sendMessage(this.roomId, this.newMessage).subscribe({
-                next: (msg) => {
-                    this.messages.push(msg); // Add the new message to the chat window
-                    this.newMessage = ''; // Clear input field
-                },
-                error: (err) => console.error("Error sending message:", err)
+            this.wsService.sendMessage({
+                type: "sendMessage",
+                room_id: this.roomId,
+                message: this.newMessage
             });
+
+            this.newMessage = ''; // Clear input field
         }
     }
 }

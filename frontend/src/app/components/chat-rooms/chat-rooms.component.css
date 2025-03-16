@@ -1,0 +1,65 @@
+/* Container Styling */
+.chat-rooms-container {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 20px;
+    background: #2c3e50; /* Dark theme background */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    color: white;
+}
+
+/* Heading Styling */
+.chat-rooms-container h2 {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #1abc9c; /* Light green */
+}
+
+/* Chat List */
+.chat-rooms-container ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+/* Chat Room Item */
+.chat-rooms-container li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #34495e;
+    padding: 10px 15px;
+    margin: 8px 0;
+    border-radius: 5px;
+    transition: background 0.3s ease-in-out;
+}
+
+/* Hover Effect */
+.chat-rooms-container li:hover {
+    background: #1abc9c;
+    color: white;
+}
+
+/* Chat Button */
+.chat-btn {
+    background: #1abc9c;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.chat-btn:hover {
+    background: #16a085;
+}
+
+/* No Chats Message */
+.chat-rooms-container p {
+    font-size: 16px;
+    color: #ecf0f1;
+}

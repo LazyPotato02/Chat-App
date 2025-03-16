@@ -1,14 +1,14 @@
-<div class="chat-container">
-    <h2>Chat Rooms</h2>
+<div class="chat-rooms-container">
+    <h2>Your Chat Rooms</h2>
 
     <ul *ngIf="chatRooms.length > 0; else noChats">
         <li *ngFor="let room of chatRooms">
             <span>{{ room.name }}</span>
-            <button (click)="enterChat(room.id)">Join</button>
+            <button class="chat-btn" (click)="openChat(room.id)">💬 Open Chat</button>
         </li>
     </ul>
 
     <ng-template #noChats>
-        <p>No available chat rooms.</p>
+        <p>You are not part of any chat rooms.</p>
     </ng-template>
 </div>

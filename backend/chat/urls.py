@@ -1,8 +1,8 @@
 from django.urls import path
-from .views import send_message, get_messages, list_user_chat_rooms, leave_chat_room, store_message
+from .views import send_message, get_messages, list_user_chat_rooms, leave_chat_room, store_message, start_chat
 
 urlpatterns = [
-
+    path('start-chat', start_chat, name='start_chat'),
     path('store-message', store_message, name='store_message'),
     path('send', send_message, name='send_message'),
     path('messages', get_messages, name='get_messages'),
