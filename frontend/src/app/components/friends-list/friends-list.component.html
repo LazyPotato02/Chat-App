@@ -1,11 +1,10 @@
-<div *ngIf="friends.length > 0; else noFriends">
-    <h2>Your Friends</h2>
-    <ul>
-        <li *ngFor="let friend of friends">
-            {{ friend.username }}
-        </li>
-    </ul>
-</div>
+<h2>Your Friends</h2>
+<ul *ngIf="friends.length > 0; else noFriends">
+    <li *ngFor="let friend of friends">
+        {{ friend.username }}
+        <button (click)="removeFriend(friend.id)">Remove</button>
+    </li>
+</ul>
 <ng-template #noFriends>
-    <p>You have no friends to chat with.</p>
+    <p>You have no friends yet.</p>
 </ng-template>

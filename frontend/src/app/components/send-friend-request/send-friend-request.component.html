@@ -1,0 +1,4 @@
+<h2>Send Friend Request</h2>
+<input type="number" [(ngModel)]="userId" placeholder="Enter User ID" />
+<button (click)="sendRequest()">Send Request</button>
+<p *ngIf="message">{{ message }}</p>

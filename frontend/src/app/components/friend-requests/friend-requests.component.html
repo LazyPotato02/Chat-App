@@ -1,0 +1,11 @@
+<h2>Pending Friend Requests</h2>
+<ul *ngIf="pendingRequests.length > 0; else noRequests">
+    <li *ngFor="let request of pendingRequests">
+        {{ request.sender_username }}
+        <button (click)="respondToRequest(request.id, 'accepted')">Accept</button>
+        <button (click)="respondToRequest(request.id, 'rejected')">Reject</button>
+    </li>
+</ul>
+<ng-template #noRequests>
+    <p>No pending friend requests.</p>
+</ng-template>
