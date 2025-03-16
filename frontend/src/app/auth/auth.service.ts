@@ -1,18 +1,35 @@
-import { inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, tap, throwError, BehaviorSubject, switchMap, filter, take, catchError, of } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {catchError, map, Observable, of, switchMap, throwError} from 'rxjs';
+import { tap } from 'rxjs/operators';
+
+// Define token structure
+interface AuthTokens {
+    access: string;
+    refresh: string;
+}
+
+// Define user structure
+interface User {
+    id: number;
+    username: string;
+    email: string;
+}
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
-    private http = inject(HttpClient);
-    private apiUrl = 'http://127.0.0.1:8000/api';
-    private isRefreshing = false;
-    private refreshTokenSubject = new BehaviorSubject<string | null>(null);
+    private apiUrl = 'http://127.0.0.1:8000';
 
+    constructor(private http: HttpClient) {}
     isAuthenticated(): boolean {
         return !!this.getAccessToken();
+    }
+    private saveAuthData(tokens: AuthTokens, user: User): void {
+        localStorage.setItem('access_token', tokens.access);
+        localStorage.setItem('refresh_token', tokens.refresh);
+        localStorage.setItem('user', JSON.stringify(user));
     }
 
     getAccessToken(): string | null {
@@ -23,70 +40,49 @@ export class AuthService {
         return localStorage.getItem('refresh_token');
     }
 
-    saveTokens(access: string, refresh: string): void {
-        localStorage.setItem('access_token', access);
-        localStorage.setItem('refresh_token', refresh);
-    }
-
-    getUserProfile(): Observable<{ id: number; username: string }> {
-        return this.http.get<{ id: number; username: string }>(`${this.apiUrl}/user/profile/`);
+    getUser(): User | null {
+        const userData = localStorage.getItem('user');
+        return userData ? JSON.parse(userData) : null;
     }
 
     login(username: string, password: string): Observable<{ access: string; refresh: string }> {
-        return this.http.post<{ access: string; refresh: string }>(`${this.apiUrl}/token/`, { username, password }).pipe(
-            tap(tokens => {
-                this.saveTokens(tokens.access, tokens.refresh);
-            })
+        return this.http.post<{ access: string; refresh: string }>(`${this.apiUrl}/api/token`, { username, password });
+    }
+
+    register(username: string, email: string, password: string): Observable<{ access: string; refresh: string; user: User }> {
+        return this.http.post<{ access: string; refresh: string; user: User }>(
+            `${this.apiUrl}/user/register`,
+            { username, email, password },
+            { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) }
         );
     }
+
     refreshToken(): Observable<string> {
-        return this.http.post<{ access: string }>(`${this.apiUrl}/token/refresh/`, {
-            refresh: this.getRefreshToken()
-        }).pipe(
-            tap(response => {
-                this.saveTokens(response.access, this.getRefreshToken()!);
-            }),
+        const refresh = this.getRefreshToken();
+        if (!refresh) return throwError(() => new Error('No refresh token available'));
+
+        return this.http.post<{ access: string }>(`${this.apiUrl}/api/token/refresh/`, { refresh }).pipe(
             switchMap(response => {
+                const user = this.getUser(); // Get stored user data
+                if (!user) {
+                    return throwError(() => new Error('No user data available'));
+                }
+
+                this.saveAuthData({ access: response.access, refresh }, user);
+
                 return of(response.access);
+            }),
+            catchError((error) => {
+                this.logout();
+                return throwError(() => error);
             })
         );
     }
 
-    handle401Error(req: any, next: any): Observable<any> {
-        if (!this.isRefreshing) {
-            this.isRefreshing = true;
-            this.refreshTokenSubject.next(null);
-
-            return this.refreshToken().pipe(
-                switchMap((newToken) => {
-                    this.isRefreshing = false;
-                    this.refreshTokenSubject.next(newToken);
-                    return next(req.clone({ setHeaders: { Authorization: `Bearer ${newToken}` } }));
-                }),
-                catchError((err) => {
-                    this.isRefreshing = false;
-                    this.logout();
-                    return throwError(() => err);
-                })
-            );
-        } else {
-            return this.refreshTokenSubject.pipe(
-                filter(token => token !== null),
-                take(1),
-                switchMap((token) => next(req.clone({ setHeaders: { Authorization: `Bearer ${token!}` } })))
-            );
-        }
-    }
-
-    register(username: string, password: string): Observable<{ message: string }> {
-        return this.http.post<{ message: string }>(`${this.apiUrl}/user/register/`, {
-            username,
-            password
-        });
-    }
     logout(): void {
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
+        localStorage.removeItem('user');
         window.location.href = '/login';
     }
 }

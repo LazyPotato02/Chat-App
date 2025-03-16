@@ -1,15 +1,27 @@
-<h2>Register</h2>
-<form (submit)="register()">
-    <label>Username:</label>
-    <input type="text" [(ngModel)]="username" required />
+<div class="auth-container">  <!-- ✅ Add this wrapper -->
+    <h2>Register</h2>
+    <form [formGroup]="registerForm" (ngSubmit)="register()">
+        <input type="text" formControlName="username" placeholder="Username">
+        <div *ngIf="registerForm.controls['username'].invalid && registerForm.controls['username'].touched">
+            <small *ngIf="registerForm.controls['username'].errors?.['required']">Username is required.</small>
+            <small *ngIf="registerForm.controls['username'].errors?.['minlength']">Must be at least 3 characters.</small>
+        </div>
 
-    <label>Password:</label>
-    <input type="password" [(ngModel)]="password" required />
+        <input type="email" formControlName="email" placeholder="Email">
+        <div *ngIf="registerForm.controls['email'].invalid && registerForm.controls['email'].touched">
+            <small *ngIf="registerForm.controls['email'].errors?.['required']">Email is required.</small>
+            <small *ngIf="registerForm.controls['email'].errors?.['email']">Invalid email format.</small>
+        </div>
 
-    <button type="submit">Register</button>
+        <input type="password" formControlName="password" placeholder="Password">
+        <div *ngIf="registerForm.controls['password'].invalid && registerForm.controls['password'].touched">
+            <small *ngIf="registerForm.controls['password'].errors?.['required']">Password is required.</small>
+            <small *ngIf="registerForm.controls['password'].errors?.['minlength']">Must be at least 6 characters.</small>
+        </div>
 
-    <p *ngIf="message" style="color: green">{{ message }}</p>
-    <p *ngIf="errorMessage" style="color: red">{{ errorMessage }}</p>
+        <button type="submit" [disabled]="registerForm.invalid">Register</button>
+    </form>
 
-    <p>Already have an account? <a routerLink="/login">Login</a></p>
-</form>
+    <p *ngIf="message" class="success-message">{{ message }}</p>
+    <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+</div>

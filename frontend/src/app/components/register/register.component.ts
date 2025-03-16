@@ -1,35 +1,49 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
-import {Router, RouterLink} from '@angular/router';
-import {NgIf} from '@angular/common';
-import {FormsModule} from '@angular/forms';
+import { NgIf } from '@angular/common';
 
 @Component({
     selector: 'app-register',
-    imports: [
-        RouterLink,
-        NgIf,
-        FormsModule
-    ],
-    templateUrl: './register.component.html'
+    standalone: true,
+    imports: [ReactiveFormsModule, NgIf],
+    templateUrl: './register.component.html',
+    styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-    username = '';
-    password = '';
+    registerForm: FormGroup;
     message = '';
     errorMessage = '';
 
-    constructor(private authService: AuthService, private router: Router) {}
+    constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+        this.registerForm = this.fb.group({
+            username: ['', [Validators.required, Validators.minLength(3)]],
+            email: ['', [Validators.required, Validators.email]],
+            password: ['', [Validators.required, Validators.minLength(6)]]
+        });
+    }
 
     register() {
-        this.authService.register(this.username, this.password).subscribe({
-            next: (response) => {
-                this.message = response.message;
-                setTimeout(() => this.router.navigate(['/login']), 2000); // Redirect to login
-            },
-            error: (err) => {
-                this.errorMessage = err.error?.message || 'Registration failed';
-            }
-        });
+        if (this.registerForm.valid) {
+            this.authService.register(
+                this.registerForm.value.username,
+                this.registerForm.value.email,
+                this.registerForm.value.password
+            ).subscribe({
+                next: (response) => {
+                    this.message = "Registration successful!";
+                    localStorage.setItem('access_token', response.access);
+                    localStorage.setItem('refresh_token', response.refresh);
+                    localStorage.setItem('user', JSON.stringify(response.user));
+                    setTimeout(() => this.router.navigate(['/login']), 2000);
+                },
+                error: (err) => {
+                    this.errorMessage = err.error?.message || 'Registration failed';
+                }
+            });
+        } else {
+            this.errorMessage = 'Please fill in all fields correctly.';
+        }
     }
 }
