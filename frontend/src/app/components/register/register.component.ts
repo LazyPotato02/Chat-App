@@ -37,6 +37,8 @@ export class RegisterComponent {
                     localStorage.setItem('refresh_token', response.refresh);
                     localStorage.setItem('user', JSON.stringify(response.user));
                     this.router.navigate(['/login']);
+                    window.location.reload();
+
                 },
                 error: (err) => {
                     this.errorMessage = err.error?.message || 'Registration failed';

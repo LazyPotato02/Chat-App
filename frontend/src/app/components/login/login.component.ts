@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../auth/auth.service';
-import { Router } from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import { NgIf } from '@angular/common';
 
 @Component({
     selector: 'app-login',
     standalone: true,
-    imports: [ReactiveFormsModule, NgIf],
+    imports: [ReactiveFormsModule, NgIf, RouterLink],
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.css']
 })
@@ -35,6 +35,7 @@ export class LoginComponent {
                         next: (user) => {
                             localStorage.setItem('user', JSON.stringify(user));
                             this.router.navigate(['/friends']);
+                            window.location.reload();
                         },
                         error: (error) => {
                             console.error('Failed to fetch user data:', error);

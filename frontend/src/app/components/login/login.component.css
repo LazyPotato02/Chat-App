@@ -53,3 +53,9 @@
     color: red;
     margin-top: 10px;
 }
+
+a{
+    text-decoration: none;
+    color: green;
+    font-weight: bold;
+}

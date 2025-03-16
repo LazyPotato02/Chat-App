@@ -17,8 +17,8 @@ export class FriendsListComponent implements OnInit {
     friends: { id: number, username: string }[] = [];
 
     constructor(
-        private chatService: ChatService, // ✅ Inject ChatService
-        private friendService: FriendService, // ✅ Inject ChatService
+        private chatService: ChatService,
+        private friendService: FriendService,
         private router: Router
     ) {}
 
@@ -31,7 +31,7 @@ export class FriendsListComponent implements OnInit {
     startChat(friendId: number): void {
         this.chatService.startChat(friendId).subscribe({
             next: (room) => {
-                this.router.navigate([`/chat/${room.room_id}`]); // ✅ Redirect to chat window
+                this.router.navigate([`/chat/${room.room_id}`]);
             },
             error: (err) => console.error("Error starting chat:", err)
         });

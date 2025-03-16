@@ -14,17 +14,17 @@ export class WebSocketService {
         this.socket = new WebSocket(`ws://127.0.0.1:8001?token=${token}`);
 
         this.socket.onopen = () => {
-            console.log("✅ WebSocket connected.");
+            console.log("WebSocket connected.");
         };
 
         this.socket.onmessage = (event) => {
             const data = JSON.parse(event.data);
             // console.log("📩 WebSocket message received:", data);
 
-            if (this.messageCallback !== null) {  // ✅ Ensure callback is set before calling it
+            if (this.messageCallback !== null) {
                 this.ngZone.run(() => {
                     // console.log("🔥 Updating UI with new message...");
-                    this.messageCallback!(data);  // ✅ Use "!" to assert that it's not null
+                    this.messageCallback!(data);
                 });
             } else {
                 console.warn("⚠️ No callback function set for WebSocket messages.");

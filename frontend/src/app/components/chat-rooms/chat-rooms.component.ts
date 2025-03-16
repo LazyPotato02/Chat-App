@@ -25,6 +25,6 @@ export class ChatRoomsComponent implements OnInit {
     }
 
     openChat(roomId: number): void {
-        this.router.navigate([`/chat/${roomId}`]); // ✅ Navigate to chat window
+        this.router.navigate([`/chat/${roomId}`]);
     }
 }
