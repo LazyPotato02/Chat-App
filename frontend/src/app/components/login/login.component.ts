@@ -29,7 +29,17 @@ export class LoginComponent {
                 next: (tokens) => {
                     localStorage.setItem('access_token', tokens.access);
                     localStorage.setItem('refresh_token', tokens.refresh);
-                    this.router.navigate(['/friends']);
+
+                    // Fetch user data after login
+                    this.authService.getCurrentUser().subscribe({
+                        next: (user) => {
+                            localStorage.setItem('user', JSON.stringify(user));
+                            this.router.navigate(['/friends']);
+                        },
+                        error: (error) => {
+                            console.error('Failed to fetch user data:', error);
+                        }
+                    });
                 },
                 error: (error) => {
                     if (error.status === 401) {
@@ -43,4 +53,5 @@ export class LoginComponent {
             this.errorMessage = 'Please enter your username and password';
         }
     }
+
 }

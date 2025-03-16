@@ -1,17 +1,19 @@
 /* Navigation Styling */
 .nav {
     display: flex;
-    justify-content: center;
-    gap: 20px;
+    align-items: center;
+    justify-content: space-between;
     padding: 15px;
     background-color: #2c3e50;
     color: white;
+    font-size: 18px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .nav a {
     text-decoration: none;
     color: white;
-    font-size: 18px;
+    font-weight: bold;
     padding: 10px 15px;
     border-radius: 5px;
     transition: background 0.3s ease-in-out;
@@ -20,4 +22,32 @@
 .nav a:hover,
 .nav a.active {
     background-color: #1abc9c;
+}
+
+/* Style for Logout */
+.logout {
+    background: #e74c3c;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.logout:hover {
+    background: #c0392b;
+}
+
+/* Style for Username Display */
+.username {
+    font-size: 16px;
+    background: #34495e;
+    padding: 8px 12px;
+    border-radius: 5px;
+    margin-left: 10px;
+    color: white;
+    font-weight: bold;
+}
+
+/* Spacer to push login/logout to the right */
+.spacer {
+    flex-grow: 1;
 }

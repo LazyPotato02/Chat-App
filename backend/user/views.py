@@ -52,3 +52,13 @@ def list_users(request):
     users = User.objects.exclude(id=request.user.id)  # Exclude logged-in user
     user_list = [{"id": user.id, "username": user.username} for user in users]
     return Response(user_list)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_current_user(request):
+    user = request.user
+    return Response({
+        "id": user.id,
+        "username": user.username,
+        "email": user.email
+    })
