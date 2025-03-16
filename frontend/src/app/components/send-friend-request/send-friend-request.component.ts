@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ChatService } from '../../services/chat.service';
+import { FriendService } from '../../services/friend.service';
 import {NgForOf, NgIf} from '@angular/common';
 
 @Component({
@@ -15,7 +15,7 @@ export class SendFriendRequestComponent implements OnInit {
     users: { id: number, username: string }[] = [];
     message = '';
 
-    constructor(private chatService: ChatService) {}
+    constructor(private chatService: FriendService) {}
 
     ngOnInit(): void {
         this.chatService.getAllUsers().subscribe({

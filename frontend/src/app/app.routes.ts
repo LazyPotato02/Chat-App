@@ -6,6 +6,7 @@ import { SendFriendRequestComponent } from './components/send-friend-request/sen
 import { FriendRequestsComponent } from './components/friend-requests/friend-requests.component';
 import { ChatRoomsComponent } from './components/chat-rooms/chat-rooms.component';
 import {AuthGuard, GuestGuard} from './auth/auth.guard';
+import {ChatWindowComponent} from './components/chat-window/chat-window.component';
 
 export const routes: Routes = [
     { path: 'friends', component: FriendsListComponent, canActivate: [AuthGuard] },
@@ -14,5 +15,7 @@ export const routes: Routes = [
     { path: 'chat-rooms', component: ChatRoomsComponent, canActivate: [AuthGuard] },
     { path: 'login', component: LoginComponent, canActivate: [GuestGuard] },
     { path: 'register', component: RegisterComponent, canActivate: [GuestGuard] },
-    { path: '**', redirectTo: '/friends' }
+    { path: 'chat-rooms', component: ChatRoomsComponent, canActivate: [AuthGuard] },
+    { path: 'chat/:roomId', component: ChatWindowComponent, canActivate: [AuthGuard] },
+    { path: '**', redirectTo: '/chat-rooms' }
 ];

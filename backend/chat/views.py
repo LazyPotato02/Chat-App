@@ -41,9 +41,19 @@ def send_message(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_messages(request):
-    messages = Message.objects.all().order_by('-timestamp')[:50]  # Last 50 messages
-    return Response(MessageSerializer(messages, many=True).data)
+    room_id = request.GET.get('room_id')
+    messages = Message.objects.filter(room_id=room_id).order_by('timestamp')
 
+    response_data = [
+        {
+            "sender": msg.user.username, 
+            "content": msg.content,
+            "timestamp": msg.timestamp
+        }
+        for msg in messages
+    ]
+
+    return Response(response_data)
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def list_user_chat_rooms(request):

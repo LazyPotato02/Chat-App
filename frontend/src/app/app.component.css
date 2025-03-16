@@ -24,7 +24,6 @@
     background-color: #1abc9c;
 }
 
-/* Style for Logout */
 .logout {
     background: #e74c3c;
     padding: 8px 12px;
@@ -36,7 +35,6 @@
     background: #c0392b;
 }
 
-/* Style for Username Display */
 .username {
     font-size: 16px;
     background: #34495e;
@@ -47,7 +45,6 @@
     font-weight: bold;
 }
 
-/* Spacer to push login/logout to the right */
 .spacer {
     flex-grow: 1;
 }
