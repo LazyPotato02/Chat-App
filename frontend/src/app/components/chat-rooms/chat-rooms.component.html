@@ -1,1 +1,9 @@
-<p>chat-rooms works!</p>
+<h2>Chat Rooms</h2>
+<ul *ngIf="chatRooms.length > 0; else noRooms">
+    <li *ngFor="let room of chatRooms">
+        {{ room.name }} - <a [routerLink]="['/chat', room.id]">Join</a>
+    </li>
+</ul>
+<ng-template #noRooms>
+    <p>You are not in any chat rooms.</p>
+</ng-template>

@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ChatService } from '../../services/chat.service';
+import {NgForOf, NgIf} from '@angular/common';
 
 @Component({
     selector: 'app-friends-list',
+    imports: [
+        NgIf,
+        NgForOf
+    ],
     templateUrl: './friends-list.component.html'
 })
 export class FriendsListComponent implements OnInit {

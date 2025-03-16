@@ -1,7 +1,13 @@
 <nav class="nav">
-    <a routerLink="/login" routerLinkActive="active" *ngIf="!isAuthenticated()">Login</a>
-    <a routerLink="/register" routerLinkActive="active" *ngIf="!isAuthenticated()">Register</a>
-    <a routerLink="/friends" routerLinkActive="active" *ngIf="isAuthenticated()">Friends</a>
+    <a routerLink="/friends *ngIf=" *ngIf="isAuthenticated()">Friends</a>
+    <a routerLink="/friend-requests" *ngIf="isAuthenticated()">Friend Requests</a>
+    <a routerLink="/send-friend-request" *ngIf="isAuthenticated()">Send Friend Request</a>
+    <a routerLink="/chat-rooms" *ngIf="isAuthenticated()">Chat Rooms</a>
+
+    <span class="spacer"></span>
+
+    <a routerLink="/login" *ngIf="!isAuthenticated()">Login</a>
+    <a routerLink="/register" *ngIf="!isAuthenticated()">Register</a>
     <a (click)="logout()" *ngIf="isAuthenticated()">Logout</a>
 </nav>
 
