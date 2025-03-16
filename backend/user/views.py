@@ -1,5 +1,6 @@
 from rest_framework import generics
 from django.contrib.auth.models import User
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
@@ -28,6 +29,7 @@ class RegisterView(generics.CreateAPIView):
 
         return Response(response_data, status=status.HTTP_201_CREATED)
 
+
 class LogoutView(APIView):
     permission_classes = []
 
@@ -43,3 +45,10 @@ class LogoutView(APIView):
             return Response({"message": "Logout successful"}, status=status.HTTP_205_RESET_CONTENT)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def list_users(request):
+    users = User.objects.exclude(id=request.user.id)  # Exclude logged-in user
+    user_list = [{"id": user.id, "username": user.username} for user in users]
+    return Response(user_list)

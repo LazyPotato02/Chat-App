@@ -1,0 +1,6 @@
+@import '../friend-requests/friend-requests.component.css';
+
+.remove {
+    background: #FF5733;
+    color: white;
+}

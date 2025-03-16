@@ -1,0 +1,11 @@
+@import '../friend-requests/friend-requests.component.css';
+
+.send {
+    background: #1abc9c;
+    color: white;
+}
+
+.message {
+    margin-top: 10px;
+    font-weight: bold;
+}

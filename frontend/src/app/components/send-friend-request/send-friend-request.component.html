@@ -1,4 +1,16 @@
-<h2>Send Friend Request</h2>
-<input type="number" [(ngModel)]="userId" placeholder="Enter User ID" />
-<button (click)="sendRequest()">Send Request</button>
-<p *ngIf="message">{{ message }}</p>
+<div class="friends-container">
+    <h2>Send Friend Request</h2>
+
+    <ul *ngIf="users.length > 0; else noUsers">
+        <li *ngFor="let user of users">
+            <span>{{ user.username }}</span>
+            <button class="send" (click)="sendRequest(user.id)">Send Request</button>
+        </li>
+    </ul>
+
+    <ng-template #noUsers>
+        <p>No users available.</p>
+    </ng-template>
+
+    <p *ngIf="message" class="message">{{ message }}</p>
+</div>

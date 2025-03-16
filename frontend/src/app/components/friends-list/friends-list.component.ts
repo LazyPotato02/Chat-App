@@ -8,7 +8,8 @@ import {NgForOf, NgIf} from '@angular/common';
         NgIf,
         NgForOf
     ],
-    templateUrl: './friends-list.component.html'
+    templateUrl: './friends-list.component.html',
+    styleUrls: ['./friends-list.component.css']
 })
 export class FriendsListComponent implements OnInit {
     friends: { id: number, username: string }[] = [];
@@ -22,9 +23,14 @@ export class FriendsListComponent implements OnInit {
         });
     }
 
-    removeFriend(friendId: number): void {
-        this.chatService.removeFriend(friendId).subscribe(() => {
-            this.friends = this.friends.filter(friend => friend.id !== friendId);
-        });
+    removeFriend(friendId: number, username: string): void {
+        const confirmRemove = confirm(`Are you sure you want to remove ${username} from your friends list?`);
+
+        if (confirmRemove) {
+            this.chatService.removeFriend(friendId).subscribe(() => {
+                this.friends = this.friends.filter(friend => friend.id !== friendId);
+            });
+        }
     }
+
 }

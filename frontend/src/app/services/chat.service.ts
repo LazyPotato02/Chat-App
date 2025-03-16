@@ -12,7 +12,9 @@ export class ChatService {
     getFriends(): Observable<{ id: number, username: string }[]> {
         return this.http.get<{ id: number, username: string }[]>(`${this.apiUrl}/friend/`);
     }
-
+    getAllUsers(): Observable<{ id: number, username: string }[]> {
+        return this.http.get<{ id: number, username: string }[]>(`${this.apiUrl}/user/list/`);
+    }
     getPendingRequests(): Observable<{ id: number, sender_id: number, sender_username: string }[]> {
         return this.http.get<{
             id: number,

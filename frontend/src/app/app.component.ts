@@ -7,7 +7,6 @@ import {NgIf} from '@angular/common';
     selector: 'app-root',
     templateUrl: './app.component.html',
     imports: [
-        RouterLinkActive,
         RouterLink,
         NgIf,
         RouterOutlet

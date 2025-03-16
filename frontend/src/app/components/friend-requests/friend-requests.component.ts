@@ -8,7 +8,8 @@ import {NgForOf, NgIf} from '@angular/common';
         NgIf,
         NgForOf
     ],
-    templateUrl: './friend-requests.component.html'
+    templateUrl: './friend-requests.component.html',
+    styleUrls: ['./friend-requests.component.css']
 })
 export class FriendRequestsComponent implements OnInit {
     pendingRequests: { id: number, sender_id: number, sender_username: string }[] = [];
